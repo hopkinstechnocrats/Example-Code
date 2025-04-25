@@ -1,22 +1,13 @@
 package frc.robot.controls;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.Robot;
 
 // This class explains how to bind general buttons
 // These are often put in RobotContainer, so this class is structured as such
 
 public class ButtonBindings { // This would be called RobotContainer
     
-    private void configureBindings()
+    //private void configureBindings()
   {
 
     if (RobotBase.isSimulation())
@@ -33,7 +24,7 @@ public class ButtonBindings { // This would be called RobotContainer
         /*
         They can all also have elses to provide an alternate set of commands
         Example:
-        controller.buttonX().onTrue(alternateSimulationCommand(value));
+        controller.button().onTrue(alternateSimulationCommand(requirement));
         */
     }
 
@@ -41,25 +32,22 @@ public class ButtonBindings { // This would be called RobotContainer
     The standard button bindings are placed outside of any of the other functions
     We often use povUp, rightTrigger, rightBumper, start, back, x
     (And all their respective alternate directions; leftBumper, y, povLeft)
-    These are defined in TODO
-    
+
+        Example for formatting:
+        controller.button().onTrue(MechanismCommands.specificCommand(requirement1, requirement2))
+
+        Example that was actually used in 2025:
+        operatorController.x().onTrue(EndEffectorCommands.changeSetpointCommand(endEffector, Constants.endEffectorConstants.Stowage));
+
+    We wanted to move the end effector to its storage position, a defined constant -- we used these steps:
+
+    We started by calling which controller we wanted to trigger the command (in this case, operator)
+    Then we said the button to use (In this case, the X button)
+    onTrue is most often used, schedules on initial button press -- this is what we used
+    whileTrue can also be helpful and calls as long as the button is pressed.
+    toggleOnTrue, the third option, will call, and then continue until the button is pressed a second time.
+    Then we called the command itself, passing in the endEffector subsystem, and a constant number for the storage position
     */
-
-    // Reset commands
-    operatorController.povDown().onTrue(EndEffectorCommands.changeSetpointCommand(endEffector, Constants.endEffectorConstants.Stowage));
-    operatorController.a().onTrue(new ElevatorSetpoint(elevator, 0.5, elevatorConstants.motorPowerResetLimit));
-
-    // Elevator up commands
-    operatorController.b().onTrue(new ScoreSequential(elevator, endEffector, elevatorConstants.L2Height, false));
-    operatorController.x().onTrue(new ScoreSequential(elevator, endEffector, elevatorConstants.L3Height, false));
-    operatorController.y().onTrue(new ScoreSequential(elevator, endEffector, elevatorConstants.L4Height, true));
-
-    // Elevator down commands
-    operatorController.povRight().onTrue(new ResetSequential(elevator, endEffector, elevatorConstants.L2Height));
-    operatorController.povLeft().onTrue(new ResetSequential(elevator, endEffector, elevatorConstants.L3Height));
-    operatorController.povUp().onTrue(new ResetSequential(elevator, endEffector, elevatorConstants.L4Height));
-
-    // End effector commands
 }
 
 }
