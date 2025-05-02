@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 public class ButtonBindings { // This would be called RobotContainer
     
     //private void configureBindings()
+    // You will need this line to actually bind the buttons
   {
 
     if (RobotBase.isSimulation())
