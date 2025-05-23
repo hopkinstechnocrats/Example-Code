@@ -10,6 +10,8 @@ public final class Constants{
     public static final class SubsystemConstants{
         public static final double kExampleDouble = 1.0;
         public static final int kExamplePort = 1;
+        public static final double kMotorSpeed = 0.1;
+        public static final int kExampleFollowerPort = 2;
     }
 
 }
