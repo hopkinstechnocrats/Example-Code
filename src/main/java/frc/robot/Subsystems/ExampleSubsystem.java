@@ -4,10 +4,12 @@ package frc.robot.Subsystems;
 //importing other classes allows you to access their functions
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 //we extend the subsystem base to create new subsystems that have the pre-existing capabilities of subsystems
 class ExampleSubsystem extends SubsystemBase{
     //declare variables before using
+    //example variables
     double exampleDouble;
     DigitalInput exampleDI;
 
@@ -16,8 +18,8 @@ class ExampleSubsystem extends SubsystemBase{
     //this function will run once when you initialize the subsystem in other classes, usually RobotContainer
     public ExampleSubsystem(){
         //static values should be stored and called from the Constants class
-        exampleDouble = 1.0;
-        exampleDI = new DigitalInput(1);
+        exampleDouble = Constants.SubsystemConstants.kExampleDouble;
+        exampleDI = new DigitalInput(Constants.SubsystemConstants.kExamplePort);
     }
 
 

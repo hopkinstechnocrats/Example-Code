@@ -7,4 +7,9 @@ public final class Constants{
         public static final int kLimitSwitchPort = 1; //should be set to the analog input port on the roboRIO
     }
 
+    public static final class SubsystemConstants{
+        public static final double kExampleDouble = 1.0;
+        public static final int kExamplePort = 1;
+    }
+
 }

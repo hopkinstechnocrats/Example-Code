@@ -13,7 +13,7 @@ class PhotoSensor extends SubsystemBase{
 
     public PhotoSensor(){
         //initialize the photo sensor along with everything else in the constructor
-        photoSensor = new DigitalInput(Constants.SensorConstants.kPhotoSensorPort); 
+        photoSensor = new DigitalInput(Constants.SensorConstants.kPhotoSensorPort /*all constant values should be in constants file*/); 
     }
 
     //example on how to return the state as a boolean supplier. true = dark, false = light
