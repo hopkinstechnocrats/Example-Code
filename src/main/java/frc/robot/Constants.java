@@ -12,6 +12,11 @@ public final class Constants{
         public static final int kExamplePort = 1;
         public static final double kMotorSpeed = 0.1;
         public static final int kExampleFollowerPort = 2;
+
+        public static final double exampleP = 0.1;
+        public static final double exampleI = 0.01;       
+        public static final double exampleD = 0.1;
+        public static final double exampleTolerence = 0.5;
     }
 
 }
