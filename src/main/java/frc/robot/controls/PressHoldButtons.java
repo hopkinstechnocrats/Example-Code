@@ -2,8 +2,8 @@ package frc.robot.controls;
 
 // This class explains how to bind press and hold buttons
 // These are often put in RobotContainer, so this class is structured as such
-// FOr more examples on robot container, view ButtonBindings.java
-// This class will lack any additional classes that ButtonBindings had
+// For more examples on robot container, view ButtonBindings.java
+// This class will lack any additional classes that ButtonBindings had (not nece)
 
 public class PressHoldButtons {
     /*
@@ -14,7 +14,7 @@ public class PressHoldButtons {
         controller.button().whileTrue(MechanismCommands.specificCommand(requirement1, requirement2))
 
         Example that was actually used in 2025:
-        operatorController.x().onTrue(EndEffectorCommands.changeSetpointCommand(endEffector, Constants.endEffectorConstants.Stowage));
+        operatorController.x().whileTrue(EndEffectorCommands.changeSetpointCommand(endEffector, Constants.endEffectorConstants.Stowage));
 
     We wanted to move the end effector to its storage position, a defined constant -- we used these steps:
 
