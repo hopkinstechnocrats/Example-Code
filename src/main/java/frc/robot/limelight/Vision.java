@@ -54,6 +54,13 @@ public class Vision {
 
     This is an example of the second one (getDistanceFromAprilTag):
 
+        public double getDistanceFromAprilTag(int id) {
+            Optional<Pose3d> tag = fieldLayout.getTagPose(id);
+            return tag.map(pose3d -> PhotonUtils.getDistanceToPose(currentPose.get(), pose3d.toPose2d())).orElse(-1.0);
+        }
+
+    This file is mostly helpful for actually driving to an apriltag.
+    It takes in an int to find the april tag and finds out the difference between the robot's location and the apriltag.
         
  */
 }
