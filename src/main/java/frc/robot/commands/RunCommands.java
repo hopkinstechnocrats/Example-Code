@@ -35,7 +35,7 @@ public class RunCommands extends Command{ // You will have to add 'extends Comma
 
     This entire process is basically three steps in three files:
     RobotContainer button press -> Command file and organization for a mechanism -> the subsystem in which things actually get done
-    This is because: a) organization and b) button presses want commands and the third file is not a command, the second file is, hence the three-step process
+    This is because: a) organization and b) button presses want commands and the third file is not a command, the second file is, hence the three-step process.
             
     }
  */

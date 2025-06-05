@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class SequentialCommandsExamples extends SequentialCommandGroup{ 
+public class SequentialCommandsExamples extends SequentialCommandGroup{ //You will have to extend this for it to work.
 
 /*
     Often this file would replace the 'second file' in the chain of files mentioned in RunCommands and CommandSubsystem.
@@ -42,7 +42,25 @@ public class SequentialCommandsExamples extends SequentialCommandGroup{
     However: the commands need a proper end function or the next sequential will just never trigger.
     In this example, calling the brake command would sequentially call the break function, then the brakeVictor function.
 
+    There is a more recommended way of doing sequential command groups, however.
+    It functions generally the same, but is more well-documented and easily readable.
+    It still can work similar to the other:
 
+        public Command driveLeft(SwerveSubsystem swerveSubsystem) {
+            return new SequentialCommandGroup(
+                drive(swerveSubsystem, -1,0 ).withTimeout(1.5),
+                drive(swerveSubsystem, 0, 0).withTimeout(.5),
+                drive(swerveSubsystem, 0, .1).withTimeout(.5),
+                drive(swerveSubsystem, 0, 1).withTimeout(2),
+                drive(swerveSubsystem, 0, 0).withTimeout(.5),
+                drive(swerveSubsystem, .1, 0).withTimeout(.5),
+                drive(swerveSubsystem, 1, 0).withTimeout(4)
+            );
+        }
+
+    The main difference here is that instead of a sequence of commands, it is a sequential command group.
+    Other than functionality, this change also lets it be written easier because commands can just be put with commas in between.
+    Again, like the other, make sure the commands have a good finish function - else they will fail to run.
  */
 
 }

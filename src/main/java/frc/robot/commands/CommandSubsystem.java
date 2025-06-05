@@ -8,7 +8,7 @@ public class CommandSubsystem extends SubsystemBase{ //You'll need the 'extends 
     As mentioned in RunCommands, there are two files for organizing the commands (not counting RobotContainer)
     This one is the one where things actually happen - where you actually set the values for what you want to change.
     It is structured similar to the RunCommands file, though generally simpler.
-    However, to actually move the robot, often you also have to define motors here
+    However, to actually move the robot, often you also have to define motors here.
 
     Example file structure that was used in 2025 (albeit shortened):
 
