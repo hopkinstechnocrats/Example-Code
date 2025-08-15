@@ -1,0 +1,39 @@
+package frc.robot.Subsystems;
+
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+public class MechanismSubsystem extends SubsystemBase{
+    TalonFX climbMotor;
+    VictorSP victorsp = new VictorSP(2);
+
+    public MechanismSubsystem(){
+        climbMotor = new TalonFX(14);
+        climbMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
+
+    public void extend(){
+        climbMotor.set(-0.4);
+    }
+
+    public void retract(){
+        climbMotor.set(0.4);
+    }
+
+    public void brake(){
+        climbMotor.stopMotor();
+    }
+
+    public void spinVictor(){
+        victorsp.set(.5);
+    }
+
+    public void brakeVictor(){
+        victorsp.set(0);
+    }
+}
