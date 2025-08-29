@@ -2,8 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CommandSubsystem extends SubsystemBase{ //You'll need the 'extends SubsystemBase', for reasons similar to the RunCommands file
-    
+public class CommandSubsystem extends SubsystemBase{ //The 'extends SubsystemBase' gives the class specific functionality for subsystems
 /*
     As mentioned in RunCommands, there are two files for organizing the commands (not counting RobotContainer)
     This one is the one where things actually happen - where you actually set the values for what you want to change.
