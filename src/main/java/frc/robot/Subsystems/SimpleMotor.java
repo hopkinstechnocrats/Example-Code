@@ -5,6 +5,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 class SimpleMotor extends SubsystemBase{
@@ -28,7 +29,7 @@ class SimpleMotor extends SubsystemBase{
         //in follower mode, the motor will always have the same output as the leader motor
         //if inverted is set to true, it will always do the exact opposite of the leader motor
         //you would usually want to invert when the motors are facing in different directions
-        simpleFollower.setControl(new Follower(simpleMotor.getDeviceID()/*we are using getDeviceID so that it still works even if we change the ID*/, true));
+        simpleFollower.setControl(new Follower(simpleMotor.getDeviceID()/*we are using getDeviceID so that it still works even if we change the ID*/, MotorAlignmentValue.Opposed));
 
         //this makes it so that our motor will brake whenever it doesn't have a command
         simpleMotor.setNeutralMode(NeutralModeValue.Brake);
