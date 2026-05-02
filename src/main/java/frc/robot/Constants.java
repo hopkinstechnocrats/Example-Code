@@ -8,6 +8,11 @@ public final class Constants{
     }
 
     public static final class SubsystemConstants{
+        public static final int kOperatorControllerPort = 1;
+        public static final int kKrakenExampleCANID = 3;
+        public static final int kKrakenFollowerExampleCANID = 4;
+        public static final int kCIMExampleCANID = 5;
+        public static final int kCIMFollowerExampleCANID = 6;
         public static final double kExampleDouble = 1.0;
         public static final int kExamplePort = 1;
         public static final double kMotorSpeed = 0.1;
