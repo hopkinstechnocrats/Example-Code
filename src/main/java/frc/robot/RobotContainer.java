@@ -17,13 +17,15 @@ public class RobotContainer {
 
   public RobotContainer() {
 
+    motorExamples.setDefaultCommand(MotorExampleCommands.Brake(motorExamples));
     configureBindings();
   }
 
   private void configureBindings() {
-     operatorController.a().whileTrue(MotorExampleCommands.SpinMotorPercentSpeed(motorExamples));
+    operatorController.a().whileTrue(MotorExampleCommands.SpinMotorPercentSpeed(motorExamples));
+    operatorController.b().whileTrue(MotorExampleCommands.SpinCIM(motorExamples));
+    //runs the command from the commands file using the method from the subsystem file when a button is pressed
   }
-
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;// Allows Krakens to exist in  code
 import com.ctre.phoenix6.hardware.TalonFXS;// Allows CIMs to exist in Code
 import com.ctre.phoenix6.signals.MotorAlignmentValue;// Allows Followers run opposite to the Leader
 import com.ctre.phoenix6.signals.NeutralModeValue;// Allows us to have a default command running on a motor
+import com.ctre.phoenix5.hardware.TalonSRX;//add new vendor library
 
 public class MotorExamples extends SubsystemBase {
     /*create your motor variables before using them
@@ -16,8 +17,8 @@ public class MotorExamples extends SubsystemBase {
     TalonFX krakenExampleMotor;
     TalonFX krakenExampleFollower;
     //This is an example with TalonFXS motor Contollers, mainly used for CIM motors on our team
-    TalonFXS CIMExampleMotor;
-    TalonFXS CIMExampleFollower;
+    TalonSRX CIMExampleMotor;
+    TalonSRX CIMExampleFollower;
 
     /*this is the initializer, that gets called when we first create our instance of a class
     here we will configure all our devices so that we can use them in other functions*/
@@ -40,13 +41,25 @@ public class MotorExamples extends SubsystemBase {
         //we are using getDeviceID so that it still works even if we change the ID
         //this is the default command. It makes the motor stop whenever it doesnt have a command
         krakenExampleMotor.setNeutralMode(NeutralModeValue.Brake);
+        krakenExampleFollower.setNeutralMode(NeutralModeValue.Brake);
+        CIMExampleMotor.setNeutralMode(NeutralModeValue.Brake);
+        CIMExampleFollower.setNeutralMode(NeutralModeValue.Brake);
     }
 
     /*This is a Method! it's what sets how we spin the motor
-    This method spins the motor with a percent speed, 1 being full power, and -1 being full power reverse, so .5 would be half power, or 50%*/
+    This method spins the motor with a percent speed, 1 being full power, and -1 being full power reverse, so .5 would be half power, or 50% */
     public void SpinMotorPercentSpeed (double speed){
-        krakenExampleMotor.set(speed); 
+        krakenExampleMotor.set(speed);
         //we set the motor to the variable "speed", which is whatever value we assing to it in the command!
+    }
+
+    public void SpinCIM (double speed){
+        CIMExampleMotor.set(speed);
+    }
+
+    public void Brake (){
+        krakenExampleMotor.set(0);
+        CIMExampleMotor.set(0);
     }
 
 
