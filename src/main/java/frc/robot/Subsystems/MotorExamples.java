@@ -5,10 +5,11 @@ import frc.robot.Constants;// Allows us to call constant values, numbers
 
 import com.ctre.phoenix6.controls.Follower;// Allows us to use Leader Follower
 import com.ctre.phoenix6.hardware.TalonFX;// Allows Krakens to exist in  code
-import com.ctre.phoenix6.hardware.TalonFXS;// Allows CIMs to exist in Code
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;// Allows CIMs to exist in Code
 import com.ctre.phoenix6.signals.MotorAlignmentValue;// Allows Followers run opposite to the Leader
-import com.ctre.phoenix6.signals.NeutralModeValue;// Allows us to have a default command running on a motor
-import com.ctre.phoenix5.hardware.TalonSRX;//add new vendor library
+import com.ctre.phoenix6.signals.NeutralModeValue;// Allows us to have a default command running on a Kraken Motor
+import com.ctre.phoenix.motorcontrol.NeutralMode;// Allows us to have a default command running on a CIM Motor
+
 
 public class MotorExamples extends SubsystemBase {
     /*create your motor variables before using them
@@ -17,8 +18,9 @@ public class MotorExamples extends SubsystemBase {
     TalonFX krakenExampleMotor;
     TalonFX krakenExampleFollower;
     //This is an example with TalonFXS motor Contollers, mainly used for CIM motors on our team
-    TalonSRX CIMExampleMotor;
-    TalonSRX CIMExampleFollower;
+    //To use this type of motor, you need to install the phoenix 5 vendor library
+    WPI_TalonSRX CIMExampleMotor;
+    WPI_TalonSRX CIMExampleFollower;
 
     /*this is the initializer, that gets called when we first create our instance of a class
     here we will configure all our devices so that we can use them in other functions*/
@@ -28,8 +30,8 @@ public class MotorExamples extends SubsystemBase {
         krakenExampleMotor = new TalonFX(Constants.SubsystemConstants.kKrakenExampleCANID);
         krakenExampleFollower = new TalonFX(Constants.SubsystemConstants.kKrakenFollowerExampleCANID);
 
-        CIMExampleMotor = new TalonFXS(Constants.SubsystemConstants.kCIMExampleCANID);
-        CIMExampleFollower = new TalonFXS(Constants.SubsystemConstants.kCIMFollowerExampleCANID);
+        CIMExampleMotor = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMExampleCANID);
+        CIMExampleFollower = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMFollowerExampleCANID);
 
         /*phoenix 6 has many tools for modifying how a motor works, one of which is the follower mode
         when setting follower mode, you need to give the id of another motor that you will follow, and whether to invert controls
@@ -37,13 +39,14 @@ public class MotorExamples extends SubsystemBase {
         if inverted is set to true, it will always do the exact opposite of the leader motor
         you would usually want to invert when the motors are facing in different directions*/
         krakenExampleFollower.setControl(new Follower(krakenExampleMotor.getDeviceID(), MotorAlignmentValue.Opposed));
-        CIMExampleFollower.setControl(new Follower(CIMExampleMotor.getDeviceID(), MotorAlignmentValue.Opposed));
         //we are using getDeviceID so that it still works even if we change the ID
+        //this is how we set a CIM motor as a follower
+        CIMExampleFollower.follow(CIMExampleMotor);
         //this is the default command. It makes the motor stop whenever it doesnt have a command
         krakenExampleMotor.setNeutralMode(NeutralModeValue.Brake);
         krakenExampleFollower.setNeutralMode(NeutralModeValue.Brake);
-        CIMExampleMotor.setNeutralMode(NeutralModeValue.Brake);
-        CIMExampleFollower.setNeutralMode(NeutralModeValue.Brake);
+        CIMExampleMotor.setNeutralMode(NeutralMode.Brake);
+        CIMExampleFollower.setNeutralMode(NeutralMode.Brake);
     }
 
     /*This is a Method! it's what sets how we spin the motor
