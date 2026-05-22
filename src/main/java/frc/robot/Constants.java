@@ -13,10 +13,11 @@ public final class Constants{
         public static final int kKrakenFollowerExampleCANID = 4;
         public static final int kCIMExampleCANID = 11;
         public static final int kCIMFollowerExampleCANID = 31;
-        public static final double kExampleDouble = 1.0;
-        public static final int kExamplePort = 8;
-        public static final double kMotorSpeed = 0.1;
         public static final int kExampleFollowerPort = 2;
+        public static final int kExamplePort = 8;
+        
+        public static final double kExampleDouble = 1.0;
+        public static final double kMotorSpeed = 0.1;
 
         public static final double exampleP = 0.1;
         public static final double exampleI = 0.01;       
