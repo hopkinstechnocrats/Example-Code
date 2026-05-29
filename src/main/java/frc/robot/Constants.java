@@ -11,8 +11,8 @@ public final class Constants{
         public static final int kOperatorControllerPort = 1;
         public static final int kKrakenExampleCANID = 10;
         public static final int kKrakenFollowerExampleCANID = 4;
-        public static final int kCIMExampleCANID = 11;
-        public static final int kCIMFollowerExampleCANID = 31;
+        public static final int kCIMExampleCANID = 6;
+        public static final int kCIMFollowerExampleCANID = 1;
         public static final int kExampleFollowerPort = 2;
         public static final int kExamplePort = 8;
         
