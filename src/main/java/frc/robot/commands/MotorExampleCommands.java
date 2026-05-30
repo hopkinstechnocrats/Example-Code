@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Subsystems.MotorExamples; //Imports the MotorExamples subystem
+import frc.robot.Subsystems.MotorExamplesSubsystem; //Imports the MotorExamples subystem
 import frc.robot.Constants; // Imports the constants for use in control loops
 
 public class MotorExampleCommands extends Command {
@@ -16,28 +16,38 @@ public class MotorExampleCommands extends Command {
     Then, outside of the curly brackets, it specifies which subsystem to pull from in the function in the command.
     Now, we have a command that we can run in RobotContainer!
 */
-        public static Command SpinMotorPercentSpeed(MotorExamples speed){
+        public static Command SpinMotorPercentSpeed(MotorExamplesSubsystem speed){
             return Commands.run(() -> {
                 speed.SpinMotorPercentSpeed(Constants.SubsystemConstants.kMotorSpeed);
             }, speed);
         }
-            /*because we're using "speed" as a variable in the method, we can call a different speed into the method in a different command
+            /*because we're using "speed" as a variable in the method, we can call a different value into the method in a different command
              This lets us have a reverse command without creating an entirely new method for it.*/
-        public static Command ReverseSpinMotorPercentSpeed(MotorExamples speed){
+        public static Command ReverseSpinMotorPercentSpeed(MotorExamplesSubsystem speed){
             return Commands.run(() -> {
                 speed.SpinMotorPercentSpeed(-Constants.SubsystemConstants.kMotorSpeed);
             }, speed);
         }
 
-        public static Command SpinCIM(MotorExamples motor){
-            return Commands.run(() -> {
-                motor.SpinCIM();
-            }, motor);
+        //This command runs the SpinVelocityPID method with the setpoint being the constant in the Command
+        public static Command SpinVelocityPID(MotorExamplesSubsystem velocity){
+            return Commands.run(()->{
+                velocity.SpinVelocityPID(Constants.SubsystemConstants.kMotorVelocityRPS);
+            }, velocity);
         }
 
-        public static Command Brake(MotorExamples stop){
+        //This command runs the SpinPositionPID method with the setpoint being the constant in the Command
+        public static Command SpinPositionPID(MotorExamplesSubsystem position){
+            return Commands.run(()->{
+                position.SpinVelocityPID(Constants.SubsystemConstants.kMotorPosition);
+            }, position);
+        }
+
+        //notice here, we don't need to run a constant through the command, because the value is already set in the method
+        public static Command Brake(MotorExamplesSubsystem stop){
             return Commands.run(() -> {
                 stop.Brake();
             }, stop);
         }
+
 }

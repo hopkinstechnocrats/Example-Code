@@ -7,13 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Subsystems.MotorExamples;
+import frc.robot.Subsystems.MotorExamplesSubsystem;
 import frc.robot.commands.MotorExampleCommands;
 
 public class RobotContainer {
   //this defines the controller that we use as an input, creating it, and assinging it an ID found in constants.
   CommandXboxController operatorController = new CommandXboxController(Constants.SubsystemConstants.kOperatorControllerPort);
-  final MotorExamples motorExamples = new MotorExamples();//Creates the MotorExamples subsystem in this file
+
+   //This creates the MotorExamples subsystem in this file
+  final MotorExamplesSubsystem motorExamples = new MotorExamplesSubsystem();
 
   //the robotContainer initializer is where everything actually runs on the robot, so if we want things to update, we need to put them in the initializer
   public RobotContainer() {
@@ -27,7 +29,8 @@ public class RobotContainer {
   private void configureBindings() {
     operatorController.a().whileTrue(MotorExampleCommands.SpinMotorPercentSpeed(motorExamples));
     operatorController.b().whileTrue(MotorExampleCommands.ReverseSpinMotorPercentSpeed(motorExamples));
-    operatorController.x().whileTrue(MotorExampleCommands.SpinCIM(motorExamples));
+    operatorController.x().whileTrue(MotorExampleCommands.SpinVelocityPID(motorExamples));
+    operatorController.y().whileTrue(MotorExampleCommands.SpinPositionPID(motorExamples));
     //runs the command from the commands file using the method from the subsystem that we defined earlier when a button is pressed.
   }
   public Command getAutonomousCommand() {

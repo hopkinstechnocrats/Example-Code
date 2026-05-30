@@ -2,13 +2,17 @@ package frc.robot;
 
 public final class Constants{
 
+    //in this file, youll notice that all of the variable names start with a k
+    //it specifies it as a constant value so other programmers can better understand what the constant is quicker
     public static final class SensorConstants{
         public static final int kPhotoSensorPort = 1; //should be set to the number of the DIO port the sensor is connected to
         public static final int kLimitSwitchPort = 1; //should be set to the analog input port on the roboRIO
     }
 
     public static final class SubsystemConstants{
-        public static final int kOperatorControllerPort = 1;
+        public static final int kOperatorControllerPort = 1;//the port in the driver station for the operator controller
+
+        //the CAN IDs for various devices
         public static final int kKrakenExampleCANID = 10;
         public static final int kKrakenFollowerExampleCANID = 4;
         public static final int kCIMExampleCANID = 6;
@@ -16,9 +20,13 @@ public final class Constants{
         public static final int kExampleFollowerPort = 2;
         public static final int kExamplePort = 8;
         
+        //speeds for motors
         public static final double kExampleDouble = 1.0;
         public static final double kMotorSpeed = 0.1;
+        public static final double kMotorVelocityRPS = .1;
+        public static final double kMotorPosition = .25;
 
+        //PID config values
         public static final double exampleP = 0.1;
         public static final double exampleI = 0.01;       
         public static final double exampleD = 0.1;
