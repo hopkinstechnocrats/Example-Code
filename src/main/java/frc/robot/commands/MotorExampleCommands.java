@@ -21,8 +21,9 @@ public class MotorExampleCommands extends Command {
                 speed.SpinMotorPercentSpeed(Constants.SubsystemConstants.kMotorSpeed);
             }, speed);
         }
-            /*because we're using "speed" as a variable in the method, we can call a different value into the method in a different command
-             This lets us have a reverse command without creating an entirely new method for it.*/
+        
+        /*because we're using "speed" as a variable in the method, we can call a different value into the method in a different command
+        This lets us have a reverse command without creating an entirely new method for it.*/
         public static Command ReverseSpinMotorPercentSpeed(MotorExamplesSubsystem speed){
             return Commands.run(() -> {
                 speed.SpinMotorPercentSpeed(-Constants.SubsystemConstants.kMotorSpeed);
@@ -39,8 +40,22 @@ public class MotorExampleCommands extends Command {
         //This command runs the SpinPositionPID method with the setpoint being the constant in the Command
         public static Command SpinPositionPID(MotorExamplesSubsystem position){
             return Commands.run(()->{
-                position.SpinVelocityPID(Constants.SubsystemConstants.kMotorPosition);
+                position.SpinPositionPID(Constants.SubsystemConstants.kMotorPosition);
             }, position);
+        }
+
+        //this command runs the SpinPosition method with the value of the called constant
+        public static Command SpinPosition(MotorExamplesSubsystem position){
+            return Commands.run(()->{
+                position.SpinPosition(Constants.SubsystemConstants.kMotorPosition2);
+            }, position);
+        }
+
+        //this command runs the SpinVelocity method with the value of the called constant
+        public static Command SpinVelocity(MotorExamplesSubsystem velocity){
+            return Commands.run(()->{
+                velocity.SpinVelocity(Constants.SubsystemConstants.kMotorVelocityRPS2);
+            }, velocity);
         }
 
         //notice here, we don't need to run a constant through the command, because the value is already set in the method

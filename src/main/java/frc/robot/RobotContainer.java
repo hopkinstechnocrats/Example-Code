@@ -15,22 +15,24 @@ public class RobotContainer {
   CommandXboxController operatorController = new CommandXboxController(Constants.SubsystemConstants.kOperatorControllerPort);
 
    //This creates the MotorExamples subsystem in this file
-  final MotorExamplesSubsystem motorExamples = new MotorExamplesSubsystem();
+  final MotorExamplesSubsystem motorExamplesSubsystem = new MotorExamplesSubsystem();
 
   //the robotContainer initializer is where everything actually runs on the robot, so if we want things to update, we need to put them in the initializer
   public RobotContainer() {
     //this is the subsystems default command, It runs the Brake command that stops all the motors for this subsystems when there is no other command being ran.
-    motorExamples.setDefaultCommand(MotorExampleCommands.Brake(motorExamples));
+    motorExamplesSubsystem.setDefaultCommand(MotorExampleCommands.Brake(motorExamplesSubsystem));
     
     //this allows the robot to actually take inputs when we press buttons that are defined in the configureBindings function.
     configureBindings();
   }
 
   private void configureBindings() {
-    operatorController.a().whileTrue(MotorExampleCommands.SpinMotorPercentSpeed(motorExamples));
-    operatorController.b().whileTrue(MotorExampleCommands.ReverseSpinMotorPercentSpeed(motorExamples));
-    operatorController.x().whileTrue(MotorExampleCommands.SpinVelocityPID(motorExamples));
-    operatorController.y().whileTrue(MotorExampleCommands.SpinPositionPID(motorExamples));
+    operatorController.a().whileTrue(MotorExampleCommands.SpinMotorPercentSpeed(motorExamplesSubsystem));
+    operatorController.b().whileTrue(MotorExampleCommands.ReverseSpinMotorPercentSpeed(motorExamplesSubsystem));
+    operatorController.x().whileTrue(MotorExampleCommands.SpinVelocityPID(motorExamplesSubsystem));
+    operatorController.y().whileTrue(MotorExampleCommands.SpinVelocity(motorExamplesSubsystem));
+    operatorController.leftTrigger().whileTrue(MotorExampleCommands.SpinPositionPID(motorExamplesSubsystem));
+    operatorController.rightTrigger().whileTrue(MotorExampleCommands.SpinPosition(motorExamplesSubsystem));
     //runs the command from the commands file using the method from the subsystem that we defined earlier when a button is pressed.
   }
   public Command getAutonomousCommand() {

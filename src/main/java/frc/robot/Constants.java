@@ -20,16 +20,19 @@ public final class Constants{
         public static final int kExampleFollowerPort = 2;
         public static final int kExamplePort = 8;
         
-        //speeds for motors
+        //speeds/positions for motors
         public static final double kExampleDouble = 1.0;
         public static final double kMotorSpeed = 0.1;
-        public static final double kMotorVelocityRPS = .1;
-        public static final double kMotorPosition = .25;
+        public static final double kMotorVelocityRPS = 5;
+        public static final double kMotorPosition = 1;
+        public static final double kMotorPosition2 = .5;
+        public static final double kMotorVelocityRPS2 = 5/100;//here, the 5 is the goal rps. Kraken x60 motors have a max speed of 100 rps
+        //we put the goal rps over the max to tell the motor a percent power to run! you also need to account for gear ratios if applicable
 
         //PID config values
-        public static final double exampleP = 0.1;
-        public static final double exampleI = 0.01;       
-        public static final double exampleD = 0.1;
+        public static final double exampleP = .3;
+        public static final double exampleI = 0.1;       
+        public static final double exampleD = 0;
         public static final double exampleTolerence = 0.5;
     }
 

@@ -49,7 +49,8 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     when tuning, start with your P value and raise it to a value where it becomes unstable and starts oscillating.
     once you find the point where it begins oscillating, set P to half of that value.
     if further tuning is required, you can begin tuning an I or D value depending on the situation, usually I.
-    D isn't used as often, and when it is, the value is quite small*/
+    D isn't used as often, and when it is, the value is quite small.
+    You can look at your power being sent to a motor by using Advantage Scope*/
 
 
     /*this is the initializer, that gets called when we first create our instance of a class.
@@ -64,12 +65,12 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         CIMExampleMotor = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMExampleCANID);
         CIMExampleFollower = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMFollowerExampleCANID);
 
-        //Now, we actually create the requests, specifying to pull configs from our slot0Configs
-        //we also set the default setpoint here, but that value should be 0, because it's assinged a value later
+        //Now, we actually create the requests, specifying to pull configs from our slot0Configs.
+        //We also set the default setpoint here, but that value should be 0, because it's assinged a value later.
         PositionRequest = new PositionVoltage(0).withSlot(0);
         VelocityRequest = new VelocityVoltage(0).withSlot(0);
 
-        //we need to create the configs at slot 0
+        //We need to create the configs at slot 0.
         slot0Configs = new Slot0Configs();
 
         //Now, we set all of our config values!
@@ -77,7 +78,7 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         slot0Configs.kI = Constants.SubsystemConstants.exampleI;
         slot0Configs.kD = Constants.SubsystemConstants.exampleD;
 
-        //Now that we've created our configs, and assinged them values, we have to apply the configs to the motor that will be recieveing from the PID loop
+        //Now that we've created our configs, and assinged them values, we have to apply the configs to the motor that will be recieveing from the PID loop.
         krakenExampleMotor.getConfigurator().apply(slot0Configs);
 
         /*phoenix 6 has many tools for modifying how a motor works, one of which is the follower mode.
@@ -108,16 +109,31 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     /*a method using a PID loop is formatted slightly differently.
     Instead of using .set to set a constant speed, we use .setControl to run the PID loop.
     Then, we say which request we're pulling from, and set the setpoint.
-    we make the setpoint a variable so we're able to use the same method for multiple setpoints by setting the value in the command
+    We make the setpoint a variable so we're able to use the same method for multiple setpoints by setting the value in the command
     The unit for the Velocity PID is rotations per second*/
     public void SpinVelocityPID (double setpointInRPS){
         krakenExampleMotor.setControl(VelocityRequest.withVelocity(setpointInRPS));
     }
 
-    //the only difference with the position method is that the unit is in Number of Rotations
-    //so if you wanted the motor to spin a quarter of the way, or 90 degrees, you'd input .25
+    //The only difference with the position method is that the unit is in Number of Rotations.
+    //So if you wanted the motor to spin a quarter of the way, or 90 degrees, you'd input .25.
     public void SpinPositionPID (double setpointInRotations){
         krakenExampleMotor.setControl(PositionRequest.withPosition(setpointInRotations));
+    }
+
+    //Here we are setting the position without utilizing the PID loop.
+    //We do this with .setPosition! with the value being the number of rotations.
+    public void SpinPosition (double numOfRotations){
+        krakenExampleMotor.setPosition(numOfRotations);
+    }
+
+    /*this is a method to set the velocity in RPS without a PID loop.
+    .set is still used, but the variable we call in should have a unit conversion conversion done to convert %power to RPS.
+    This unit conversion will depend on the max speed of the motor.
+    This can also be acheived by calling a different constant through the normal percent power method in the commands file
+    but for the sake of the example, it's seperate*/
+    public void SpinVelocity (double speedInRPS){
+        krakenExampleMotor.set(speedInRPS);
     }
 
     //this method is run as the default when nothing else is running, so the motors stop when the button input is stopped
