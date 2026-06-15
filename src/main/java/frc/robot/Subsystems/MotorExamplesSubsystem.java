@@ -30,6 +30,9 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     check the phoenix 6 docs for all that is contained in the configurator*/
     Slot0Configs slot0Configs;
 
+    double positionSpinValue;
+    double positionSpinSpeed;
+
     //Phoenix 6 handles motor controls as requests, with multiple different types, the main ones being velocity and position
     //Position voltage is a class for using a PID loop to go to a position in rotations
     final PositionVoltage PositionRequest;
@@ -95,7 +98,25 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         //we also need to invert the Follower CIM if it is facing opposite to the leader.
         //This needs to be done seperatly because CIMs run off of Poenix 5, and dont have as many tools available to them.
         CIMExampleFollower.setInverted(true);
+
+        
     }
+
+    /*This is a periodic function! it needs to be run in a class that extends subsystem base.
+    This function runs whatever is inside of it every computer tick, so it's used for updating values.
+    Here, it's being used to update the value to spin the position function without a PID*/
+    @Override
+        public void periodic(){
+            positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble())*.01;
+
+            if(positionSpinValue < .005){
+                positionSpinSpeed = .005;
+            }else if(positionSpinValue > .1){
+                positionSpinSpeed = .1;
+            }else{
+                positionSpinSpeed = positionSpinValue;
+            }
+        }
 
     /*This is a Method! it's what sets how we spin the motor
     This method spins the motor with a percent speed using motorName.set, 1 being full power, and -1 being full power reverse, so .5 would be half power, or 50% 
@@ -121,10 +142,13 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         krakenExampleMotor.setControl(PositionRequest.withPosition(setpointInRotations));
     }
 
-    //Here we are setting the position without utilizing the PID loop.
-    //We do this with .setPosition! with the value being the number of rotations.
-    public void SpinPosition (double numOfRotations){
-        krakenExampleMotor.setPosition(numOfRotations);
+    /*Here we are setting the position without utilizing the PID loop.
+    To do this, we are telling the motor to spin at a variable speed.
+    This speed is updated in the periodic above!
+    This value is the difference between the goal position, and the actual position
+    So the closer it is to the position, the slower it will move, and the further away, the faster it will move*/
+    public void SpinPosition (){
+        krakenExampleMotor.set(positionSpinSpeed);
     }
 
     /*this is a method to set the velocity in RPS without a PID loop.

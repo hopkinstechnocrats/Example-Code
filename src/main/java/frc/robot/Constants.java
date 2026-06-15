@@ -25,8 +25,8 @@ public final class Constants{
         public static final double kMotorSpeed = 0.1;
         public static final double kMotorVelocityRPS = 5;
         public static final double kMotorPosition = 1;
-        public static final double kMotorPosition2 = .5;
-        public static final double kMotorVelocityRPS2 = 5/100;//here, the 5 is the goal rps. Kraken x60 motors have a max speed of 100 rps
+        public static final double kMotorPosition2 = 2;
+        public static final double kMotorVelocityRPS2 = .05;// (5/100). here, the 5 is the goal rps. Kraken x60 motors have a max speed of 100 rps
         //we put the goal rps over the max to tell the motor a percent power to run! you also need to account for gear ratios if applicable
 
         //PID config values
