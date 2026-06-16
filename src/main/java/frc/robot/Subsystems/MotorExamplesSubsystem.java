@@ -107,14 +107,18 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     Here, it's being used to update the value to spin the position function without a PID*/
     @Override
         public void periodic(){
-            positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble())*.01;
+            positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble());
 
-            if(positionSpinValue < .005){
+            if(positionSpinValue < .5 && positionSpinValue > 0.01){
                 positionSpinSpeed = .005;
-            }else if(positionSpinValue > .1){
-                positionSpinSpeed = .1;
+            }else if(positionSpinValue > 20){
+                positionSpinSpeed = .2;
+            }else if(positionSpinValue > -.5 && positionSpinValue < -0.01){
+                positionSpinSpeed = -.005;
+            }else if(positionSpinValue < -20){
+                positionSpinSpeed = -.2;
             }else{
-                positionSpinSpeed = positionSpinValue;
+                positionSpinSpeed = positionSpinValue*.01;
             }
         }
 
