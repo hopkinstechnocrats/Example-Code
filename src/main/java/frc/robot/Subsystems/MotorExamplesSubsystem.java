@@ -109,13 +109,13 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         public void periodic(){
             positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble());
 
-            if(positionSpinValue < .5 && positionSpinValue > 0.01){
+            if(positionSpinValue <= .5 && positionSpinValue >= 0.01){
                 positionSpinSpeed = .005;
-            }else if(positionSpinValue > 20){
+            }else if(positionSpinValue >= 20){
                 positionSpinSpeed = .2;
-            }else if(positionSpinValue > -.5 && positionSpinValue < -0.01){
+            }else if(positionSpinValue >= -.5 && positionSpinValue <= -0.01){
                 positionSpinSpeed = -.005;
-            }else if(positionSpinValue < -20){
+            }else if(positionSpinValue <= -20){
                 positionSpinSpeed = -.2;
             }else{
                 positionSpinSpeed = positionSpinValue*.01;
