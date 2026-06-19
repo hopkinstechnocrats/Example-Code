@@ -109,18 +109,21 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         public void periodic(){
             positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble());
 
-            if(positionSpinValue <= .5 && positionSpinValue >= 0.01){
-                positionSpinSpeed = .005;
-            }else if(positionSpinValue >= 20){
-                positionSpinSpeed = .2;
-            }else if(positionSpinValue >= -.5 && positionSpinValue <= -0.01){
-                positionSpinSpeed = -.005;
-            }else if(positionSpinValue <= -20){
-                positionSpinSpeed = -.2;
-            }else{
-                positionSpinSpeed = positionSpinValue*.01;
+            if(Math.abs(positionSpinValue)>0.02){
+                
+                    if(positionSpinValue > 2.5){
+                        positionSpinSpeed = .5;
+                    }else if(positionSpinValue < -2.5){
+                        positionSpinSpeed = -.5;
+                    } else{
+                        positionSpinSpeed = positionSpinValue*.2;
+                    }
+
+                }else{
+                positionSpinSpeed = 0;
+                }
             }
-        }
+        
 
     /*This is a Method! it's what sets how we spin the motor
     This method spins the motor with a percent speed using motorName.set, 1 being full power, and -1 being full power reverse, so .5 would be half power, or 50% 
@@ -153,6 +156,7 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     So the closer it is to the position, the slower it will move, and the further away, the faster it will move*/
     public void SpinPosition (){
         krakenExampleMotor.set(positionSpinSpeed);
+        System.out.println(krakenExampleMotor.getPosition());
     }
 
     /*this is a method to set the velocity in RPS without a PID loop.
