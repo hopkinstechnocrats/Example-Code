@@ -107,22 +107,31 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     Here, it's being used to update the value to spin the position function without a PID*/
     @Override
         public void periodic(){
+            //This takes the difference between the goal point and the current point
             positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble());
 
+            //This is a bound for the goalpoint.
+            //If the position is within .02 rotations of the goal, it brakes the motor
             if(Math.abs(positionSpinValue)>0.02){
-                
-                    if(positionSpinValue > 2.5){
-                        positionSpinSpeed = .5;
-                    }else if(positionSpinValue < -2.5){
-                        positionSpinSpeed = -.5;
-                    } else{
-                        positionSpinSpeed = positionSpinValue*.2;
-                    }
 
-                }else{
-                positionSpinSpeed = 0;
+                //These set the bounds around the outer edges.
+                //If the difference is more than 2.5 rotations away, it maxes out speed at 50%, and same for negative
+                if(positionSpinValue > 2.5){
+                    positionSpinSpeed = .5;
+                }else if(positionSpinValue < -2.5){
+                    positionSpinSpeed = -.5;
+                } else{
+                    
+                    //If the difference is between 2.5 rotations it runs the motor at the difference in rotations.
+                    //The value is multiplied to make sure the motor doesnt spin at 100% power while 1 rotation away
+                    positionSpinSpeed = positionSpinValue*.2;
                 }
+
+            }else{
+                //This is what brakes the motor when the position is within .02 rotations from the goal
+                positionSpinSpeed = 0;
             }
+        }
         
 
     /*This is a Method! it's what sets how we spin the motor
