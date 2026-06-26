@@ -165,7 +165,6 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     So the closer it is to the position, the slower it will move, and the further away, the faster it will move*/
     public void SpinPosition (){
         krakenExampleMotor.set(positionSpinSpeed);
-        System.out.println(krakenExampleMotor.getPosition());
     }
 
     /*this is a method to set the velocity in RPS without a PID loop.
