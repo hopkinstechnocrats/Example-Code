@@ -7,6 +7,15 @@ We use tunable numbers in order to save time on processes that need to have vari
 These processes are things like configuring motor speeds and tuning PID values.
 The tunable numbers themselves are changed in the dashboard Elastic
 */
+
+/*to actually access the tunable numbers, you need to use the dashboard Elasitc.
+After opening the application, make sure its connected to the robot.
+Look in the top left corner and press "add widgets"
+Under network tables, click on the folder you made, then drag the tunable number out of the dropdown, onto the grid
+the element will display the value of the variable on the grid that can be changed
+once the value is changed, the new value will be applied to the code without needing a deploy
+ */
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
