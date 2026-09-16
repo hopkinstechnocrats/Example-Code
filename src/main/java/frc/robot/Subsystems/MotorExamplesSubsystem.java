@@ -1,7 +1,8 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.DoubleEntry;//Allows us to pull a double value from a network table
+import edu.wpi.first.networktables.NetworkTable;//Allows us to utilize network tables
+import edu.wpi.first.networktables.NetworkTableInstance;//Allows us to utilize instances of network tables
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;// Allows us to run a Subsystem
 import frc.robot.Constants;// Allows us to call constant values, numbers
@@ -24,6 +25,9 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     NetworkTable table;
     //initializes the instance of the network table inside the larger network table
     NetworkTableInstance inst;
+
+    //initializes the value of the difference between a motors real state and desired state
+    DoubleEntry PIDDifference;
 
     /*create your motor variables before using them.
     This example assumes you are using the TalonFX motor controller, these are built into Kraken motors.
@@ -76,7 +80,7 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     here we will configure all our devices so that we can use them in other functions*/
     public MotorExamplesSubsystem() {
 
-        //this sets the default of the network table instance so it can be changed later
+        //this sets the default value of the network table instance so it can be changed later
         inst = NetworkTableInstance.getDefault();
         //this sets the key of the network table so we can access it on Elastic
         table = inst.getTable("Example Table Key");
@@ -124,7 +128,14 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         The naming scheme uses the / to organize the number into folders
         So this example has the number names "Example Tunable Number" in the "Tunable Numbers" folder
         Then the constant that the tunable number comes from is listed*/
-        k_exampleTunableNumber= new TunableNumber("/Tunable Numbers/Example Tunable Number", Constants.SubsystemConstants.k_exampleTunableNumber);
+        k_exampleTunableNumber= new TunableNumber("/Tunable Numbers/Example Tunable Number", Constants.SubsystemConstants.k_exampleValueToBeTuned);
+
+        /*
+         This is how you set a network table outside of the tunable numbers.
+         This double entry(an entry that is a double in the network table) lets us see the PIDDiffernce value as a graph.
+         This sets the table entry as a double with the value PIDDifference under the name "PID Difference".
+         We need a default value defined at the end so it has somewhere to start. The default value will be overrided.*/
+        PIDDifference = table.getDoubleTopic("PID Difference").getEntry(0);
     }
 
     /*This is a periodic function! it needs to be run in a class that extends subsystem base.
@@ -133,12 +144,17 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     @Override
         public void periodic(){
 
+            /*this sets the PIDDifference value to the difference between the real state and the desired state
+            we do this so were able to use a tool like advantage scope to see what our motor is doing
+            this allows for us to tune the PID loop by looking at whats happening at different values*/
+            PIDDifference.set(krakenExampleMotor.getClosedLoopError().getValueAsDouble()); 
+
             /*this method need to be in a periodic.
              This is the method for a tunable number that does not use a PID loop
              this method checks if the testing mode is enabled on the driver station, and if the tunable number has changed
              If the Tunable number has changed in Elastic, it sets the constant value to tunable number*/
             if(DriverStation.isTestEnabled() && k_exampleTunableNumber.hasChanged(hashCode())){
-                Constants.SubsystemConstants.k_exampleTunableNumber = k_exampleTunableNumber.get();
+                Constants.SubsystemConstants.k_exampleValueToBeTuned = k_exampleTunableNumber.get();
             }
 
             /*this is the method for the tunable number that does use a PID loop
