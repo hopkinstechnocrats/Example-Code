@@ -90,6 +90,7 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         krakenExampleMotor = new TalonFX(Constants.SubsystemConstants.kKrakenExampleCANID);
         krakenExampleFollower = new TalonFX(Constants.SubsystemConstants.kKrakenFollowerExampleCANID);
 
+        //CIMs and Krakens are made slightly different things, mainly CIMs needing to be set as a WPI_TalonSRX
         CIMExampleMotor = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMExampleCANID);
         CIMExampleFollower = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMFollowerExampleCANID);
 

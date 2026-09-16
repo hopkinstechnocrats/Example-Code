@@ -13,17 +13,17 @@ public final class Constants{
         public static final int kOperatorControllerPort = 1;//the port in the driver station for the operator controller
 
         //the CAN IDs for various devices
-        public static final int kKrakenExampleCANID = 10;
+        public static final int kKrakenExampleCANID = 17;
         public static final int kKrakenFollowerExampleCANID = 4;
-        public static final int kCIMExampleCANID = 6;
+        public static final int kCIMExampleCANID = 5;
         public static final int kCIMFollowerExampleCANID = 1;
         public static final int kExampleFollowerPort = 2;
-        public static final int kExamplePort = 8;
+        public static final int kExamplePort = 3;
         
         //speeds/positions for motors
         public static final double kExampleDouble = 1.0;
         public static final double kMotorSpeed = 0.1;
-        public static final double kMotorVelocityRPS = 5;
+        public static double kMotorVelocityRPS = 1;
         public static final double kMotorPosition = 1;
         public static final double kMotorPosition2 = 5;
         public static final double kMotorVelocityRPS2 = .05;// (5/100). here, the 5 is the goal rps. Kraken x60 motors have a max speed of 100 rps
