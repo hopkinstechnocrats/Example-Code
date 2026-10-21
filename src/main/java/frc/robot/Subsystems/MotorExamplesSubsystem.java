@@ -16,7 +16,8 @@ import com.ctre.phoenix6.configs.Slot0Configs;//Allows us to access and apply th
 import com.ctre.phoenix6.controls.PositionVoltage;//Allows us to give a position with a PID loop
 import com.ctre.phoenix6.controls.VelocityVoltage;//Allows us to give a velocity with a PID loop
 
-
+/*For the most basic subsystem, you need the driver station, subsystem base, constants, and motor type imports
+You need a class, an initializer, a motor to be initialized and created, and a method.*/
 
 public class MotorExamplesSubsystem extends SubsystemBase {
 
