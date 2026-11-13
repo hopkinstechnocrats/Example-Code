@@ -1,7 +1,12 @@
 package frc.robot.Subsystems;
 
+import edu.wpi.first.networktables.DoubleEntry;//Allows us to pull a double value from a network table
+import edu.wpi.first.networktables.NetworkTable;//Allows us to utilize network tables
+import edu.wpi.first.networktables.NetworkTableInstance;//Allows us to utilize instances of network tables
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;// Allows us to run a Subsystem
 import frc.robot.Constants;// Allows us to call constant values, numbers
+import frc.robot.TunableNumber;//Allows us to access tunable numbers
 
 import com.ctre.phoenix6.controls.Follower;// Allows us to use Leader Follower
 import com.ctre.phoenix6.hardware.TalonFX;// Allows Krakens to exist in  code
@@ -11,8 +16,19 @@ import com.ctre.phoenix6.configs.Slot0Configs;//Allows us to access and apply th
 import com.ctre.phoenix6.controls.PositionVoltage;//Allows us to give a position with a PID loop
 import com.ctre.phoenix6.controls.VelocityVoltage;//Allows us to give a velocity with a PID loop
 
+/*For the most basic subsystem, you need the driver station, subsystem base, constants, and motor type imports
+You need a class, an initializer, a motor to be initialized and created, and a method.*/
 
 public class MotorExamplesSubsystem extends SubsystemBase {
+
+    
+    //initializes the larger network table
+    NetworkTable table;
+    //initializes the instance of the network table inside the larger network table
+    NetworkTableInstance inst;
+
+    //initializes the value of the difference between a motors real state and desired state
+    DoubleEntry PIDDifference;
 
     /*create your motor variables before using them.
     This example assumes you are using the TalonFX motor controller, these are built into Kraken motors.
@@ -30,6 +46,11 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     check the phoenix 6 docs for all that is contained in the configurator*/
     Slot0Configs slot0Configs;
 
+    //This initializes(creates) the tunable number variable
+    //it needs to be initialized with the TunableNumber class
+    TunableNumber k_exampleTunableNumber;
+
+    //This initialized the varibles that are used in the position control without a PID method
     double positionSpinValue;
     double positionSpinSpeed;
 
@@ -60,11 +81,17 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     here we will configure all our devices so that we can use them in other functions*/
     public MotorExamplesSubsystem() {
 
+        //this sets the default value of the network table instance so it can be changed later
+        inst = NetworkTableInstance.getDefault();
+        //this sets the key of the network table so we can access it on Elastic
+        table = inst.getTable("Example Table Key");
+
         //when creating a new motor you need to specify the CANID number of the motor.
         //the CANID of a ctre motor can be set in PhoenixTunerX.
         krakenExampleMotor = new TalonFX(Constants.SubsystemConstants.kKrakenExampleCANID);
         krakenExampleFollower = new TalonFX(Constants.SubsystemConstants.kKrakenFollowerExampleCANID);
 
+        //CIMs and Krakens are made slightly different things, mainly CIMs needing to be set as a WPI_TalonSRX
         CIMExampleMotor = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMExampleCANID);
         CIMExampleFollower = new WPI_TalonSRX(Constants.SubsystemConstants.kCIMFollowerExampleCANID);
 
@@ -99,7 +126,18 @@ public class MotorExamplesSubsystem extends SubsystemBase {
         //This needs to be done seperatly because CIMs run off of Poenix 5, and dont have as many tools available to them.
         CIMExampleFollower.setInverted(true);
 
-        
+        /*This actually creates the tunable number in the network table.
+        The naming scheme uses the / to organize the number into folders
+        So this example has the number names "Example Tunable Number" in the "Tunable Numbers" folder
+        Then the constant that the tunable number comes from is listed*/
+        k_exampleTunableNumber= new TunableNumber("/Tunable Numbers/Example Tunable Number", Constants.SubsystemConstants.k_exampleValueToBeTuned);
+
+        /*
+         This is how you set a network table outside of the tunable numbers.
+         This double entry(an entry that is a double in the network table) lets us see the PIDDiffernce value as a graph.
+         This sets the table entry as a double with the value PIDDifference under the name "PID Difference".
+         We need a default value defined at the end so it has somewhere to start. The default value will be overrided.*/
+        PIDDifference = table.getDoubleTopic("PID Difference").getEntry(0);
     }
 
     /*This is a periodic function! it needs to be run in a class that extends subsystem base.
@@ -107,6 +145,28 @@ public class MotorExamplesSubsystem extends SubsystemBase {
     Here, it's being used to update the value to spin the position function without a PID*/
     @Override
         public void periodic(){
+
+            /*this sets the PIDDifference value to the difference between the real state and the desired state
+            we do this so were able to use a tool like advantage scope to see what our motor is doing
+            this allows for us to tune the PID loop by looking at whats happening at different values*/
+            PIDDifference.set(krakenExampleMotor.getClosedLoopError().getValueAsDouble()); 
+
+            /*this method need to be in a periodic.
+             This is the method for a tunable number that does not use a PID loop
+             this method checks if the testing mode is enabled on the driver station, and if the tunable number has changed
+             If the Tunable number has changed in Elastic, it sets the constant value to tunable number*/
+            if(DriverStation.isTestEnabled() && k_exampleTunableNumber.hasChanged(hashCode())){
+                Constants.SubsystemConstants.k_exampleValueToBeTuned = k_exampleTunableNumber.get();
+            }
+
+            /*this is the method for the tunable number that does use a PID loop
+            The difference is that this applys the tunable number to a slot config
+            After it sets the new value, it needs to reapply the new config to the motor*/
+            if(DriverStation.isTestEnabled() && k_exampleTunableNumber.hasChanged(hashCode())){
+                slot0Configs.kP = k_exampleTunableNumber.getAsDouble();
+                krakenExampleMotor.getConfigurator().apply(slot0Configs);
+            }
+
             //This takes the difference between the goal point and the current point
             positionSpinValue = (Constants.SubsystemConstants.kMotorPosition2 - krakenExampleMotor.getPosition().getValueAsDouble());
 
